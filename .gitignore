@@ -1,0 +1,15 @@
+.DS_Store
+.idea/
+__pycache__/
+dev.json
+env.json
+prod.json
+qa.json
+staging.json
+*.pyc
+*~
+*#
+env/
+.vscode
+token.pickle
+credentials.json
