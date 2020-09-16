@@ -25,14 +25,36 @@ class Allocation:
 
         fdic = []
         for i in range(1, len(allocations)+1):
-            fdic.append([data for data in allocations if int(data['candidate']['id']) == i][0])
+            fdic.append([data for data in allocations if int(
+                data['candidate']['id']) == i][0])
         allocations = fdic
 
         for alloc in allocations:
             values.append([alloc['candidate']['id'], alloc['candidate']['email'], alloc['candidate']
                            ['name'], alloc['players'][0], alloc['players'][1]])
 
-
         self.sheet.update_values(
             configs.ALLOCATIONS_SHEET_ID, match['no']+"!A1", 'USER_ENTERED', values)
         return None
+
+    def get_allocation(self, match):
+        rows = self.sheet.get_rows(configs.ALLOCATIONS_SHEET_ID,
+                            "'"+match+"'!"+configs.ALLOCATIONS_GET_SHEET_RANGE_POSTFIX)
+        allocations = []
+        for row in rows:
+            allocations.append({
+                'no':row[0],
+                'name':row[1],
+                'email':row[2],
+                'player1':row[3],
+                'player2':row[4]
+            })
+        return allocations
+
+def main():
+    data = Allocation()
+    data.get_allocation('1')
+
+
+if __name__ == '__main__':
+    exit(main())
