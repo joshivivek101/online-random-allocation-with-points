@@ -35,7 +35,7 @@ class Allocation:
 
         self.sheet.update_values(
             configs.ALLOCATIONS_SHEET_ID, match['no']+"!A1", 'USER_ENTERED', values)
-        return None
+        return values
 
     def get_allocation(self, match):
         rows = self.sheet.get_rows(configs.ALLOCATIONS_SHEET_ID,

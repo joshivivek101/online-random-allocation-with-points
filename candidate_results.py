@@ -16,7 +16,7 @@ class CandidateResult:
         values = [["Match Number", match['no'], '','','',
                    '', '', '', '', 'Created Date Time']]
         values.append(["Teams", match["team1"] +
-                       ' - vs - '+match["team2"], '', '', '', '','','', '', '', str(datetime.datetime.now())])
+                       ' - vs - '+match["team2"], '', '', '', '','','', '', str(datetime.datetime.now())])
         values.append(["No", "Name", "Email", "Player 1", "Player 1 runs, wickets", "Player 1 Points",
                        "Player 2","Player 2 runs, wickets", "Player 2 Points", "Total Points"])
 
@@ -34,4 +34,4 @@ class CandidateResult:
                            winner['player1_points'], winner['player2']+'('+winner['player2_name']+')',winner['player2_run_wicket'], winner['player2_points'], winner['total']])
         self.sheet.update_values(
             configs.CANDIDATE_RESULTS_SHEET_ID, match['no']+"!A1", 'USER_ENTERED', values)
-        return None
+        return values

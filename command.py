@@ -5,16 +5,19 @@ from optparse import OptionParser
 from match_results import MatchResults
 from logics import generate_candidate_result
 from candidate_results import CandidateResult
+from email_util import send_mail, generate_html_from_dics
+
 
 def parse_command_line():
     parser = OptionParser()
     parser.add_option('--create-allocation', action='store_true', dest='allocate', default=False,
                       help='Allocate for new match')
-    parser.add_option('--match-no', action='store', dest='match', help='match number')
+    parser.add_option('--match-no', action='store',
+                      dest='match', help='match number')
 
     parser.add_option('--generate-results', action='store_true', dest='results', default=False,
                       help='Generate result for match')
-     
+
     (options, args) = parser.parse_args()
     return parser, options
 
@@ -25,7 +28,7 @@ def main():
     if options.allocate:
         if not options.match:
             raise Exception('Match number is required to create allocation')
-        
+
         match_no = options.match
         cand = Candidate()
         candidates = cand.get_all()
@@ -36,13 +39,17 @@ def main():
             match = match_ser.get(match_no)
             if not match:
                 raise Exception('Match number not valid')
-            
-            allocation_ser.create_allocation(match, allocations)
+
+            aloc_values = allocation_ser.create_allocation(match, allocations)
+            html_to_send = generate_html_from_dics(aloc_values)
+            candidate_emails = [c['email'] for c in candidates]
+            send_mail(candidate_emails, 'TESTING -- Allocation - Match: '+match_no +
+                      ' - '+match['team1']+' vs '+match['team2'],'Allocation as following',html_to_send)
 
     elif options.results:
         if not options.match:
             raise Exception('Match number is required to create results')
-        
+
         match_no = options.match
         result_service = MatchResults()
         results = result_service.get(match_no)
@@ -56,10 +63,11 @@ def main():
         match_obj = match_service.get(match_no)
 
         cand_result_service = CandidateResult()
-        cand_result_service.add_results(match_obj,final_results)
-
-        
+        result_values = cand_result_service.add_results(match_obj, final_results)
+        html_to_send = generate_html_from_dics(result_values)
+        candidate_emails = [res['name'] for res in final_results['results']]
+        send_mail(candidate_emails, 'TESTING -- Result - Match: '+match_no +
+                      ' - '+match_obj['team1']+' vs '+match_obj['team2'],'Result as following',html_to_send)
 
 if __name__ == '__main__':
     exit(main())
-
