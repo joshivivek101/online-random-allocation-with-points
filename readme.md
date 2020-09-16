@@ -7,3 +7,10 @@ Allocate for a match and store to google sheets.
 ```
 python command.py --create-allocation --match-no 1
 ```
+
+## GenerateResults By Match
+Allocate for a match and store to google sheets.
+
+```
+python command.py --generate-results --match-no 1
+```
