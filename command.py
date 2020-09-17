@@ -43,8 +43,7 @@ def main():
             aloc_values = allocation_ser.create_allocation(match, allocations)
             html_to_send = generate_html_from_dics(aloc_values)
             candidate_emails = [c['email'] for c in candidates]
-            send_mail(candidate_emails, 'TESTING -- Allocation - Match: '+match_no +
-                      ' - '+match['team1']+' vs '+match['team2'],'Allocation as following',html_to_send)
+            send_mail(candidate_emails, 'Allocation - Trip: '+match_no,'A refers to the team which will bat first and B is who is batting 2nd',html_to_send)
 
     elif options.results:
         if not options.match:
@@ -66,8 +65,7 @@ def main():
         result_values = cand_result_service.add_results(match_obj, final_results)
         html_to_send = generate_html_from_dics(result_values)
         candidate_emails = [res['name'] for res in final_results['results']]
-        send_mail(candidate_emails, 'TESTING -- Result - Match: '+match_no +
-                      ' - '+match_obj['team1']+' vs '+match_obj['team2'],'Result as following',html_to_send)
+        send_mail(candidate_emails, 'Result - Trip: '+match_no,'Result as following',html_to_send)
 
 if __name__ == '__main__':
     exit(main())
