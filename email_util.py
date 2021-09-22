@@ -7,8 +7,8 @@ def send_mail(to, subject, text_data, html_data):
     mail_content = text_data
 
     # The mail addresses and password
-    sender_address = 'vsite.nationwide@gmail.com'
-    sender_pass = 'Vsite@4321'
+    sender_address = 'XXXXX'
+    sender_pass = 'XXXX'
     receiver_address = to
     # Setup the MIME
     message = MIMEMultipart()
