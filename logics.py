@@ -1,6 +1,18 @@
 import random
 import copy
 import configs
+import random
+
+
+def random_shuffle_list(r_list):
+    range_list = []
+    for r in range(10):
+        range_list.append(r+1)
+    range_num = random.choice(range_list)
+    print(f'Shuffling list {range_num} times')
+    for x in range(range_num):
+        print(f'Shuffling loop : {x+1}')
+        random.shuffle(r_list)
 
 
 def make_chits():
@@ -11,17 +23,13 @@ def make_chits():
         chits.append(team_1+str(x))
         chits.append(team_2+str(x))
     # shuffle players
-    random.shuffle(chits)
-    random.shuffle(chits)
-    random.shuffle(chits)
+    random_shuffle_list(chits)
     return chits
 
 
 def get_random_allocation(candidates):
     # shuffle candidates
-    random.shuffle(candidates)
-    random.shuffle(candidates)
-    random.shuffle(candidates)
+    random_shuffle_list(candidates)
     chits = None
     local_candidates = copy.deepcopy(candidates)
     allocation = []
@@ -85,6 +93,7 @@ def generate_candidate_result(allocations, results):
     all_totals = [res['total'] for res in candidate_results]
     all_totals.sort()
     winner_points = all_totals[-1]
-    winner_results = [res for res in candidate_results if res['total'] == winner_points]
+    winner_results = [
+        res for res in candidate_results if res['total'] == winner_points]
 
-    return { 'results': candidate_results, 'winners': winner_results }
+    return {'results': candidate_results, 'winners': winner_results}
